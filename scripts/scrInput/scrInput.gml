@@ -194,5 +194,7 @@ function tiny_input() constructor {
 		return $"{_index_name} input for '{_name}' has been unassigned!"
 	}
 }
+
+//INITIALIZE THE INPUT CONSTRUCTOR
 #macro INPUT global.input
 INPUT = new tiny_input();
