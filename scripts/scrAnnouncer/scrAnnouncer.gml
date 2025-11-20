@@ -1,5 +1,3 @@
-
-
 function tiny_announcer() constructor {
     
     //Initialize the values.
@@ -30,18 +28,16 @@ function tiny_announcer() constructor {
         
         if !ds_exists(prompt, ds_type_list) { prompt = ds_list_create(); }
         
-        //Get the size of the DS list.
+        //Insert into the first entry: string, type, timer to the broadcasting prompter.
+        ds_list_insert(prompt, 0, variable_clone([_string, _type, time, alpha]));
+		
+		//Get the size of the DS list.
         size = ds_list_size(prompt);
         
         //If the size is greater (should not happen) or equal to the maximum size, delete the last entry.
-        if size >= maximum { ds_list_delete(prompt, size - 1); }
+        if size >= maximum { ds_list_delete(prompt, size); }
         
-        //Insert into the first entry: string, type, timer to the broadcasting prompter.
-        ds_list_insert(prompt, 0, variable_clone([_string, _type, time, alpha]));
-        
-        return true;
     }
-   
    
     /**
     * @desc With this function messages will be broadcasted to the upper center of the screen. Add this to the Draw_GUI event.
@@ -58,10 +54,14 @@ function tiny_announcer() constructor {
         var _string_y = 0;
         
         for (var i = 0; i < size; ++i) {
-            
+			
+			//If there is an undefined entry exit the loop.
+			if prompt[| i] == undefined { exit }
+			
             //Adds the first entries string height to the current entry if there are more than one entry.
             _string_y = i > 0 ? _string_y + string_height(prompt[| 0][val.text]) : 0;
-            
+			
+            		
             draw_text_transformed_color(gui_x, 
                                         gui_y + _string_y, 
                                         prompt[| i][val.text],
@@ -73,7 +73,7 @@ function tiny_announcer() constructor {
                                         color[prompt[| i][val.type]],
                                         color[prompt[| i][val.type]],
                                         prompt[| i][val.alpha]);
-                                        
+										
             //Reduce timer by time per frame.
             prompt[| i][val.time] -= time_pf;
             
@@ -88,7 +88,7 @@ function tiny_announcer() constructor {
         if ds_list_empty(prompt) { ds_list_destroy(prompt); prompt = -1; size = 0; }
     }
 }
-global.msg = new tiny_announcer();
 
-
-
+//INITIALIZE THE BROADCASTING CONSTRUCTOR
+#macro MSG global.msg
+MSG = new tiny_announcer();
