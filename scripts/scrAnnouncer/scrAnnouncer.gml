@@ -1,16 +1,29 @@
 function tiny_announcer() constructor {
     
     //Initialize the values.
-    //static font    = undefined;							//**WIP**
+	static font	   = font_add("Arial", 34, false, false, 32, 128);
+	font_enable_sdf(font, true);
+	font_enable_effects(font, true, {
+		dropShadowEnable: true,
+	    dropShadowSoftness: 20,
+	    dropShadowOffsetX: 4,
+	    dropShadowOffsetY: 4,
+		dropShadowAlpha: 1,
+		outlineEnable: true,
+		outlineDistance: 2,
+		outlineColour: c_black
+	});
     static maximum = 5;
     static size    = 0;
     static length  = 40;									//Maximum character length before new line.
-    static scale   = 1.5;									//Scale of the drawn string.
+    static scale   = 1;									//Scale of the drawn string.
     static prompt  = -1;
     static time    = 5;										//Seconds
     static alpha   = 1;
     static time_pf = 1 / game_get_speed(gamespeed_fps);  
-    static color   = [c_green, c_yellow, c_red];			//news, warning, error
+    static color   = [make_colour_rgb(100, 200, 100), 
+					  make_colour_rgb(200, 150, 0), 
+					  make_colour_rgb(200, 50, 50)];
     static type    = [0, 1, 2];								//news, warning, error
     static val     = {
         text  : 0,
@@ -18,7 +31,6 @@ function tiny_announcer() constructor {
         time  : 2,
         alpha : 3
     }
-    
 
     /**
      * @desc With this function you can send a stringed alert to the broadcasting system. The types and colored text of systems are as follows: 0 (News - green), 1 (Warning - yellow), and 2 (Error - red).
@@ -68,14 +80,14 @@ function tiny_announcer() constructor {
         if !ds_exists(prompt, ds_type_list) { exit; }
         
         //If the font is not broadcasting font, set it. **WIP**
-        //if draw_get_font() != font { draw_set_font(font); }
+        if draw_get_font() != font { draw_set_font(font); }
 		
 		//Set the text alignment if it isn't centered.
         if draw_get_halign() != fa_center { draw_set_halign(fa_center); };
         if draw_get_valign() != fa_middle { draw_set_valign(fa_middle); };
 		
         var _string_y = 0;
-        
+		
         for (var i = 0; i < size; ++i) {
 			
 			//If there is an undefined entry exit the loop.
@@ -83,8 +95,7 @@ function tiny_announcer() constructor {
 			
             //Adds the first entries string height to the current entry if there are more than one entry.
             _string_y = i > 0 ? _string_y + string_height(prompt[| 0][val.text]) * scale : 0;
-			
-            		
+						
             draw_text_transformed_color(gui_x, 
                                         gui_y + _string_y, 
                                         prompt[| i][val.text],
