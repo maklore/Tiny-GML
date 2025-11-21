@@ -1,8 +1,11 @@
 function tiny_announcer() constructor {
     
     //Initialize the values.
+    //static font    = undefined;							//**WIP**
     static maximum = 5;
     static size    = 0;
+    static length  = 30;									//Maximum character length before new line.
+    static scale   = 1;
     static prompt  = -1;
     static time    = 5;										//Seconds
     static alpha   = 1;
@@ -16,6 +19,7 @@ function tiny_announcer() constructor {
         alpha : 3
     }
     
+
     /**
      * @desc With this function you can send a stringed alert to the broadcasting system. The types and colored text of systems are as follows: 0 (News - green), 1 (Warning - yellow), and 2 (Error - red).
      * @param {string} _string  The string message you wish to add broadcasting system.
@@ -28,14 +32,27 @@ function tiny_announcer() constructor {
         
         if !ds_exists(prompt, ds_type_list) { prompt = ds_list_create(); }
         
-        //Insert into the first entry: string, type, timer to the broadcasting prompter.
-        ds_list_insert(prompt, 0, variable_clone([_string, _type, time, alpha]));
+        //Insert array into the first entry of the list: string (wrapped), type, timer to the broadcasting prompter.
+        var _string_length = string_length(_string);
+        var _new_string = string_copy(_string, 1, _string_length);
+	    if _string_length > length {
+		    var _pos = length;
+		    var _split_amount = round(_string_length / length);
+		    for (var i = 0; i < _split_amount; ++i) {
+		        _pos = string_last_pos_ext(" ", _new_string, _pos);
+				_new_string = string_delete(_new_string, _pos, 1)
+		        _new_string = string_insert("\n", _new_string, _pos);
+		        _pos += length;
+		    }
+	    }
+	    
+        ds_list_insert(prompt, 0, variable_clone([_new_string, _type, time, alpha]));
 		
 		//Get the size of the DS list with a max of maximum size.
         size = clamp(ds_list_size(prompt), 0, maximum);
         
         //If the size is greater (should not happen) or equal to the maximum size, delete the last entry.
-        if size >= maximum { ds_list_delete(prompt, size); }
+        if size >= maximum { ds_list_delete(prompt, size - 1); }
         
     }
    
@@ -51,6 +68,9 @@ function tiny_announcer() constructor {
         //If there is no DS list exit the function.
         if !ds_exists(prompt, ds_type_list) { exit; }
         
+        //If the font is not broadcasting font, set it. **WIP**
+        //if draw_get_font() != font { draw_set_font(font) } 
+        
         var _string_y = 0;
         
         for (var i = 0; i < size; ++i) {
@@ -65,8 +85,8 @@ function tiny_announcer() constructor {
             draw_text_transformed_color(gui_x, 
                                         gui_y + _string_y, 
                                         prompt[| i][val.text],
-                                        1,
-                                        1,
+                                        scale,
+                                        scale,
                                         0,
                                         color[prompt[| i][val.type]],
                                         color[prompt[| i][val.type]],
