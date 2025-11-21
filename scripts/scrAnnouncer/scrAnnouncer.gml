@@ -4,8 +4,8 @@ function tiny_announcer() constructor {
     //static font    = undefined;							//**WIP**
     static maximum = 5;
     static size    = 0;
-    static length  = 30;									//Maximum character length before new line.
-    static scale   = 1;
+    static length  = 40;									//Maximum character length before new line.
+    static scale   = 1.5;									//Scale of the drawn string.
     static prompt  = -1;
     static time    = 5;										//Seconds
     static alpha   = 1;
@@ -34,13 +34,12 @@ function tiny_announcer() constructor {
         
         //Insert array into the first entry of the list: string (wrapped), type, timer to the broadcasting prompter.
         var _string_length = string_length(_string);
-        var _new_string = string_copy(_string, 1, _string_length);
+        var _new_string = string_upper(_string);
 	    if _string_length > length {
 		    var _pos = length;
 		    var _split_amount = round(_string_length / length);
 		    for (var i = 0; i < _split_amount; ++i) {
 		        _pos = string_last_pos_ext(" ", _new_string, _pos);
-				_new_string = string_delete(_new_string, _pos, 1)
 		        _new_string = string_insert("\n", _new_string, _pos);
 		        _pos += length;
 		    }
@@ -69,8 +68,12 @@ function tiny_announcer() constructor {
         if !ds_exists(prompt, ds_type_list) { exit; }
         
         //If the font is not broadcasting font, set it. **WIP**
-        //if draw_get_font() != font { draw_set_font(font) } 
-        
+        //if draw_get_font() != font { draw_set_font(font); }
+		
+		//Set the text alignment if it isn't centered.
+        if draw_get_halign() != fa_center { draw_set_halign(fa_center); };
+        if draw_get_valign() != fa_middle { draw_set_valign(fa_middle); };
+		
         var _string_y = 0;
         
         for (var i = 0; i < size; ++i) {
@@ -79,7 +82,7 @@ function tiny_announcer() constructor {
 			if prompt[| i] == undefined { exit }
 			
             //Adds the first entries string height to the current entry if there are more than one entry.
-            _string_y = i > 0 ? _string_y + string_height(prompt[| 0][val.text]) : 0;
+            _string_y = i > 0 ? _string_y + string_height(prompt[| 0][val.text]) * scale : 0;
 			
             		
             draw_text_transformed_color(gui_x, 
