@@ -16,14 +16,12 @@ function tiny_announcer() constructor {
     static maximum = 5;
     static size    = 0;
     static length  = 40;									//Maximum character length before new line.
-    static scale   = 1;									//Scale of the drawn string.
+    static scale   = 1;										//Scale of the drawn string.
     static prompt  = -1;
     static time    = 5;										//Seconds
     static alpha   = 1;
-    static time_pf = 1 / game_get_speed(gamespeed_fps);  
-    static color   = [make_colour_rgb(100, 200, 100), 
-					  make_colour_rgb(200, 150, 0), 
-					  make_colour_rgb(200, 50, 50)];
+    static time_pf = 1 / game_get_speed(gamespeed_fps);		
+    static color   = [ #64c864, #c89600, #c83232]			//Green, Amber,  Red
     static type    = [0, 1, 2];								//news, warning, error
     static val     = {
         text  : 0,
@@ -108,21 +106,24 @@ function tiny_announcer() constructor {
                                         color[prompt[| i][val.type]],
                                         prompt[| i][val.alpha]);
 										
-            //Reduce timer by time per frame.
-            prompt[| i][val.time] -= time_pf;
-            
-            //Reduce alpha to zero during the last second.
-            if prompt[| i][val.time] <= 1 { prompt[| i][val.alpha] -= time_pf; }
-            
-            //Delete the entry that has had it's timer reached zero.
-            if prompt[| i][val.time] <= 0 { ds_list_delete(prompt, i); }
         }
+		//Reduce timer by time per frame.
+        prompt[| size - 1][val.time] -= time_pf;
+            
+        //Reduce alpha to zero during the last second.
+        if prompt[| size - 1][val.time] <= 1 { prompt[| size - 1][val.alpha] -= time_pf; }
+            
+        //Delete the entry that has had it's timer reached zero.
+        if prompt[| size - 1][val.time] <= 0 { 
+			ds_list_delete(prompt, size - 1); 
+			size = clamp(ds_list_size(prompt), 0, maximum) 
+		}
         
         //If the list is empty, destroy it, and reset values.
         if ds_list_empty(prompt) { ds_list_destroy(prompt); prompt = -1; size = 0; }
     }
 }
 
-//INITIALIZE THE BROADCASTING CONSTRUCTOR
+//INITIALIZE THE BROADCASTING SYSTEM
 #macro MSG global.msg
 MSG = new tiny_announcer();
