@@ -38,17 +38,17 @@ function tiny_cast() constructor {
     /**
      * @desc With this function you can send a stringed or a format alert to the broadcasting system. The types and colored text of systems are as follows: 0 (News - Green), 1 (Warning - Amber), and 2 (Error - Red).
      * @param {string} _string  The string message you wish to add broadcasting system.
-     * @param {string} _type    The type of message you wish to broadcast.
+     * @param {string} _type    The type of message you wish to broadcast (Default is 0).
      */
-    alert = function(_string_or_format, _type) {
+    alert = function(_string_or_format, _type = 0) {
 		
         //If the type is not correct send a stringed alert to the broadcasting system and exit the function.
-        if (_string_or_format == "") or !array_contains(data.type, _type) { alert($"String is empty or type is invalid!", 1); exit; }
+        if (_string_or_format == "") or !array_contains(data.type, _type) { alert("String is empty or type is invalid!", 1); exit; }
         
         if !ds_exists(data.prompt, ds_type_list) { data.prompt = ds_list_create(); }
         
         //Insert array into the first entry of the list: string (wrapped), type, timer to the broadcasting prompter.
-		var _new_string = string(_string_or_format);//string_upper(_string_or_format);
+		var _new_string = string(_string_or_format);
         var _string_length = string_length(_new_string);
         
 	    if typeof(_string_or_format) == "string" and _string_length > data.length {

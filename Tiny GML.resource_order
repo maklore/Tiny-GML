@@ -1,6 +1,8 @@
 {
   "FolderOrderSettings":[],
   "ResourceOrderSettings":[
+    {"name":"scrConvoke","order":4,"path":"scripts/scrConvoke/scrConvoke.yy",},
+    {"name":"scrAlter","order":5,"path":"scripts/scrAlter/scrAlter.yy",},
     {"name":"scrMovement","order":2,"path":"scripts/scrMovement/scrMovement.yy",},
     {"name":"scrUtility","order":3,"path":"scripts/scrUtility/scrUtility.yy",},
   ],

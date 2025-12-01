@@ -21,7 +21,9 @@
   },
   "name":"Tiny GML",
   "resources":[
+    {"id":{"name":"scrAlter","path":"scripts/scrAlter/scrAlter.yy",},},
     {"id":{"name":"scrCast","path":"scripts/scrCast/scrCast.yy",},},
+    {"id":{"name":"scrConvoke","path":"scripts/scrConvoke/scrConvoke.yy",},},
     {"id":{"name":"scrMovement","path":"scripts/scrMovement/scrMovement.yy",},},
     {"id":{"name":"scrSteer","path":"scripts/scrSteer/scrSteer.yy",},},
     {"id":{"name":"scrUtility","path":"scripts/scrUtility/scrUtility.yy",},},
