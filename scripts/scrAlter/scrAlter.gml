@@ -9,7 +9,7 @@ function tiny_alter_later() constructor {
 	}
 	
 	/**
-	* @desc							This method adds a timer and a method/function to a DS list and calls it when the timer finishes. 
+	* @desc							This method adds a timer, instance id, variable name, and a value to a DS list and executes it once the timer reaches zero. 
 	* @param {real} _time			The time in seconds.
 	* @param {id} _id				The instance id that contains the variable.
 	* @param {string} _name			The variable name as a string.
