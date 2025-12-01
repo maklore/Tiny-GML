@@ -15,13 +15,13 @@ function tiny_convoke_later() constructor {
 	*/
 	add = function(_time, _func) {
 	
-	if !ds_exists(data.list, ds_type_list) {
-	    data.list = ds_list_create();
-	}
-	
-	ds_list_insert(data.list, 0, { func : _func, time : _time  });
-	
-	data.size = ds_list_size(data.list); 
+    	if !ds_exists(data.list, ds_type_list) {
+    	    data.list = ds_list_create();
+    	}
+    	
+    	ds_list_insert(data.list, 0, { func : _func, time : _time  });
+    	
+    	data.size = ds_list_size(data.list); 
 	
 	}
   
