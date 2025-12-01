@@ -1,5 +1,5 @@
 /**
- * @desc This function is a constructor for an input system.
+ * @desc This is a input, and keybind system.
  */
 function tiny_steer() constructor {
 	//Credit for key_press etc idea: germ3x

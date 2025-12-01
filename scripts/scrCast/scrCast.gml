@@ -1,5 +1,5 @@
 /**
- * @desc This function is a constructor for a broadcasting system.
+ * @desc This is a system for a broadcasting values onto the screen.
  */
 function tiny_cast() constructor {
     

@@ -1,5 +1,5 @@
 /**
- * @desc This function is a constructor for an instance variable change later system.
+ * @desc This is a system for changing instance variables later.
  */
 function tiny_alter_later() constructor {
 	

@@ -1,5 +1,5 @@
 /**
- * @desc This function is a constructor for an alarm system.
+ * @desc This is a system for executing functions later.
  */
 function tiny_convoke_later() constructor {
 	
