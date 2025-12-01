@@ -22,7 +22,7 @@
   "name":"Tiny GML",
   "resources":[
     {"id":{"name":"scrAlter_value_later","path":"scripts/scrAlter_value_later/scrAlter_value_later.yy",},},
-    {"id":{"name":"scrAnnouncer","path":"scripts/scrAnnouncer/scrAnnouncer.yy",},},
+    {"id":{"name":"scrAnnounce","path":"scripts/scrAnnounce/scrAnnounce.yy",},},
     {"id":{"name":"scrControls","path":"scripts/scrControls/scrControls.yy",},},
     {"id":{"name":"scrExecute_later","path":"scripts/scrExecute_later/scrExecute_later.yy",},},
     {"id":{"name":"scrMovement","path":"scripts/scrMovement/scrMovement.yy",},},
