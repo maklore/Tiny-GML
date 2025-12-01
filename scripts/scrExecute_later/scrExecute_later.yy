@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scrAlter",
+  "%Name":"scrExecute_later",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scrAlter",
+  "name":"scrExecute_later",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

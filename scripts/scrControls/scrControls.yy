@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scrCast",
+  "%Name":"scrControls",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scrCast",
+  "name":"scrControls",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

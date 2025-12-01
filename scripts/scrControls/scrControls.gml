@@ -1,7 +1,7 @@
 /**
  * @desc This is a input, and keybind system.
  */
-function tiny_steer() constructor {
+function tiny_controls() constructor {
 	//Credit for key_press etc idea: germ3x
 	/*
 	
@@ -199,5 +199,5 @@ function tiny_steer() constructor {
 }
 
 //INITIALIZE THE INPUT CONSTRUCTOR
-#macro STEER global.steer
-STEER = new tiny_steer();
+#macro CONTROLS global.controls
+CONTROLS = new tiny_controls();

@@ -1,7 +1,7 @@
 /**
- * @desc This is a system for a broadcasting values onto the screen.
+ * @desc This is a system for a announcing values onto the screen.
  */
-function tiny_cast() constructor {
+function tiny_announce() constructor {
     
     //Initialize the values.
 	static data = {
@@ -132,5 +132,5 @@ function tiny_cast() constructor {
 }
 
 //INITIALIZE THE BROADCASTING SYSTEM
-#macro CAST global.casts
-CAST = new tiny_cast();
+#macro ANNOUNCE global.announce
+ANNOUNCE = new tiny_announce();

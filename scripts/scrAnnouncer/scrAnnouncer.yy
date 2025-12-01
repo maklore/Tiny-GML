@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scrSteer",
+  "%Name":"scrAnnouncer",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scrSteer",
+  "name":"scrAnnouncer",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

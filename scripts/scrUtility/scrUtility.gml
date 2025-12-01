@@ -92,8 +92,13 @@ function tiny_load(_exclude_array = []) {
 													_id[$ _struct_key[i]].Layer, 
 													_id[$ _struct_key[i]].Object, 
 													_id[$ _struct_key[i]].Variables);
-		variable_instance_set(create_instance, "image_angle",   _id[$ _struct_key[i]].Angle);
-		variable_instance_set(create_instance, "image_xscale",  _id[$ _struct_key[i]].Xscale);
-		variable_instance_set(create_instance, "image_yscale",  _id[$ _struct_key[i]].Yscale);
+		variable_instance_set(create_instance, "image_angle",  _id[$ _struct_key[i]].Angle);
+		variable_instance_set(create_instance, "image_xscale", _id[$ _struct_key[i]].Xscale);
+		variable_instance_set(create_instance, "image_yscale", _id[$ _struct_key[i]].Yscale);
+		variable_instance_set(create_instance, "image_index",  _id[$ _struct_key[i]].Subimg);
+		variable_instance_set(create_instance, "depth", 	   _id[$ _struct_key[i]].Depth);
+		variable_instance_set(create_instance, "visible",	   _id[$ _struct_key[i]].Visible);
+		variable_instance_set(create_instance, "solid", 	   _id[$ _struct_key[i]].Solid);
+		variable_instance_set(create_instance, "layer", 	   _id[$ _struct_key[i]].Layer);
 	}
 }

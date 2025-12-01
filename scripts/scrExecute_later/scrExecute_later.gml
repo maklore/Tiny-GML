@@ -1,7 +1,7 @@
 /**
  * @desc This is a system for executing functions later.
  */
-function tiny_convoke_later() constructor {
+function tiny_execute_later() constructor {
 	
 	static data = {
 		list : -1,
@@ -52,5 +52,5 @@ function tiny_convoke_later() constructor {
 	}
 }
 
-#macro CONVOKE global.convoke
-CONVOKE = new tiny_convoke_later();
+#macro EXECUTE global.execute
+EXECUTE = new tiny_execute_later();

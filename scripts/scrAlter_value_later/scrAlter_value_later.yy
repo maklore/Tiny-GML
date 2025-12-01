@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scrConvoke",
+  "%Name":"scrAlter_value_later",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scrConvoke",
+  "name":"scrAlter_value_later",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",
