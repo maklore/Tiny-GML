@@ -5,10 +5,11 @@ function tiny_affects() constructor {
 
 	data = {
 	    list : -1,
-	    size : 0
+	    size : 0,
+		tick : true
 	}
 
-    /*
+    /**
      * @desc Using this method you can add a buff or debuff to a DS list and have it affect the target instance. 
      * @param {Id.instance} _id     Instance ID of the target.
      * @param {string}      _key    Variable key to affect.
@@ -16,10 +17,11 @@ function tiny_affects() constructor {
      * @param {string}      _type   Type of the effect.
      * @param {real}        _time   Duration of the effect in seconds.
      * @param {real}        _value  Value of the effect.
+     * @param {real}        _tick   How damage is applied. Ticks or per frame. (Default is ticks (true)).
      */
-	add = function(_id, _key, _name, _type, _time, _value) {
+	add = function(_id, _key, _name, _type, _time, _value, _tick = true) {
 		
-		/*
+		/**
 		 * @desc Checks if name of an effect is already in the list.
 		 */
 		static check_name = function(_id, _name, _value) {
@@ -35,13 +37,13 @@ function tiny_affects() constructor {
 			return -1;
 		}
 		
-		static frame_time = (1 / game_get_speed(gamespeed_fps)) / _time;
-		
 		if !ds_exists(data.list, ds_type_list) {
 		    data.list = ds_list_create();
 		}
         
-        var _value_new = _type == "damage over time" or _type == "healing over time" ? _value * frame_time : _value;
+		if _tick == false { data.tick = false; }
+		var _damage_style = _tick == true ? _value / _time : (_value * (1 / game_get_speed(gamespeed_fps)) / _time);
+        var _value_new = _type == "damage over time" or _type == "healing over time" ? _damage_style : _value;
         
 		var _index_check = check_name(data.list, "name", _name);
 				
@@ -59,47 +61,58 @@ function tiny_affects() constructor {
 			type  : _type,
 		    value : _value_new
 		});
-    
+		
 		data.size = ds_list_size(data.list);
 	}
 	
-	/*
+	/**
      * @desc This method keeps control of each added and active buff/debuff in the DS list and removes them if the instance or the duration reaches zero.
      * @param {real}        _delta  Time between frames.
      */
 	countdown = function(_delta) {
 	    
+		static tick_time = 0;
+		
 	    if !ds_exists(data.list, ds_type_list) { exit }
-	    
+		
+	    if data.tick {
+			tick_time += _delta;
+		}
+		
 	    for (var i = 0; i < data.size; ++i) {
             
             var _instance = data.list[| i].iid;
 	        var _var_key  = data.list[| i].key;
 	        var _value    = data.list[| i].value;
 	        var _time     = data.list[| i].time;
-	        
+			
 	        if !instance_exists(_instance) or _time <= 0 or _instance[$ _var_key] < 0 {
 	            ds_list_delete(data.list, i);
 	            data.size = ds_list_size(data.list);
 	            continue
 	        }
 	        
-			switch (data.list[| i].type) {
+			if tick_time >= 1 or data.tick == false {
 			
-				case "damage over time" :
-					_instance[$ _var_key] -= clamp(_value, 0, _instance[$ _var_key]);
-				break;
+				switch (data.list[| i].type) {
+			
+					case "damage over time" :
+						_instance[$ _var_key] -= clamp(_value, 0, _instance[$ _var_key]);
+					break;
 				
-				case "healing over time" :
-					_instance[$ _var_key] += clamp(_value, 0, _instance[$ _var_key]);
-				break;				
+					case "healing over time" :
+						_instance[$ _var_key] += clamp(_value, 0, _instance[$ _var_key]);
+					break;				
 				
-				case "slow" :
-					_instance[$ _var_key] *= _value;
-				break;
+					case "slow" :
+						_instance[$ _var_key] *= _value;
+					break;
+				}
+				
+				tick_time = 0;
 			}
 			
-			_time -= _delta;
+			data.list[| i].time -= _delta;
                 
 	    }
 	    
