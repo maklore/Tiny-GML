@@ -14,7 +14,7 @@ function tiny_affects() constructor {
      * @param {string}      _key    Variable key to affect.
      * @param {string}      _name   Name of the effect.
      * @param {string}      _type   Type of the effect.
-     * @param {real}        _time   Duration of the effect.
+     * @param {real}        _time   Duration of the effect in seconds.
      * @param {real}        _value  Value of the effect.
      */
 	add = function(_id, _key, _name, _type, _time, _value) {
@@ -63,11 +63,14 @@ function tiny_affects() constructor {
 		data.size = ds_list_size(data.list);
 	}
 	
-	
+	/*
+     * @desc This method keeps control of each added and active buff/debuff in the DS list and removes them if the instance or the duration reaches zero.
+     * @param {real}        _delta  Time between frames.
+     */
 	countdown = function(_delta) {
 	    
 	    if !ds_exists(data.list, ds_type_list) { exit }
-    
+	    
 	    for (var i = 0; i < data.size; ++i) {
             
             var _instance = data.list[| i].iid;
@@ -75,7 +78,7 @@ function tiny_affects() constructor {
 	        var _value    = data.list[| i].value;
 	        var _time     = data.list[| i].time;
 	        
-	        if !instance_exists(_instance) or _time <= 0 or _instance[$ _var_key]  < 0 {
+	        if !instance_exists(_instance) or _time <= 0 or _instance[$ _var_key] < 0 {
 	            ds_list_delete(data.list, i);
 	            data.size = ds_list_size(data.list);
 	            continue
@@ -99,6 +102,7 @@ function tiny_affects() constructor {
 			_time -= _delta;
                 
 	    }
+	    
 	    if ds_list_empty(data.list) {
 	        ds_list_destroy(data.list);
 	        data.list = -1;
