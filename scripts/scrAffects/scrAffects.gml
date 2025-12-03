@@ -8,9 +8,20 @@ function tiny_affects() constructor {
 	    size : 0
 	}
 
-
+    /*
+     * @desc Using this method you can add a buff or debuff to a DS list and have it affect the target instance. 
+     * @param {Id.instance} _id     Instance ID of the target.
+     * @param {string}      _key    Variable key to affect.
+     * @param {string}      _name   Name of the effect.
+     * @param {string}      _type   Type of the effect.
+     * @param {real}        _time   Duration of the effect.
+     * @param {real}        _value  Value of the effect.
+     */
 	add = function(_id, _key, _name, _type, _time, _value) {
 		
+		/*
+		 * @desc Checks if name of an effect is already in the list.
+		 */
 		static check_name = function(_id, _name, _value) {
 		    
 			var _size = ds_list_size(_id);
@@ -30,22 +41,7 @@ function tiny_affects() constructor {
 		    data.list = ds_list_create();
 		}
         
-        var _value_new = 0;
-        
-        switch (data.list[| i].type) {
-            
-            case "damage over time" :
-                _value_new = _value * frame_time;
-            break;
-            
-            case "healing over time" :
-                _value_new = _value * frame_time;
-            break;
-            
-            case "slow" :
-                _value_new = _value;
-            break;
-        }
+        var _value_new = data.list[| i].type == "damage over time" or data.list[| i].type == "healing over time" ? _value * frame_time : _value;
         
 		var _index_check = check_name(data.list, "name", _name);
 				
@@ -69,33 +65,38 @@ function tiny_affects() constructor {
 	
 	
 	countdown = function(_delta) {
+	    
 	    if !ds_exists(data.list, ds_type_list) { exit }
     
 	    for (var i = 0; i < data.size; ++i) {
-        
-	        data.list[| i].time -= _delta;
             
-			switch (data.list[| i].type) {
-			
-				case "damage over time" :
-					data.list[| i].iid[$ data.list[| i].key] -= clamp(data.list[| i].value, 0, data.list[| i].iid[$ data.list[| i].key]);
-				break;
-				
-				case "healing over time" :
-					data.list[| i].iid[$ data.list[| i].key] += clamp(data.list[| i].value, 0, data.list[| i].iid[$ data.list[| i].key]);
-				break;				
-				
-				case "slow" :
-					data.list[| i].iid[$ data.list[| i].key] *= data.list[| i].value;
-				break;
-			}
-		
-		
-	        if data.list[| i].time <= 0 or data.list[| i].iid[$ data.list[| i].key] < 0 {
+            var _instance = data.list[| i].iid;
+	        var _var_key  = data.list[| i].key;
+	        var _value    = data.list[| i].value;
+	        var _time     = data.list[| i].time;
+	        
+	        if !instance_exists(_instance) or _time <= 0 or _instance[$ _var_key]  < 0 {
 	            ds_list_delete(data.list, i);
 	            data.size = ds_list_size(data.list);
 	            continue
 	        }
+	        
+			switch (data.list[| i].type) {
+			
+				case "damage over time" :
+					_instance[$ _var_key] -= clamp(_value, 0, _instance[$ _var_key]);
+				break;
+				
+				case "healing over time" :
+					_instance[$ _var_key] += clamp(_value, 0, _instance[$ _var_key]);
+				break;				
+				
+				case "slow" :
+					_instance[$ _var_key] *= _value;
+				break;
+			}
+			
+			_time -= _delta;
                 
 	    }
 	    if ds_list_empty(data.list) {
