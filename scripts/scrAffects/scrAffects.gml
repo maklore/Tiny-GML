@@ -41,7 +41,7 @@ function tiny_affects() constructor {
 		    data.list = ds_list_create();
 		}
         
-        var _value_new = data.list[| i].type == "damage over time" or data.list[| i].type == "healing over time" ? _value * frame_time : _value;
+        var _value_new = _type == "damage over time" or _type == "healing over time" ? _value * frame_time : _value;
         
 		var _index_check = check_name(data.list, "name", _name);
 				
