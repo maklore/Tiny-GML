@@ -1,6 +1,7 @@
 {
   "FolderOrderSettings":[],
   "ResourceOrderSettings":[
+    {"name":"scrAffects","order":6,"path":"scripts/scrAffects/scrAffects.yy",},
     {"name":"scrExecute_later","order":4,"path":"scripts/scrExecute_later/scrExecute_later.yy",},
     {"name":"scrAlter_value_later","order":5,"path":"scripts/scrAlter_value_later/scrAlter_value_later.yy",},
     {"name":"scrMovement","order":2,"path":"scripts/scrMovement/scrMovement.yy",},

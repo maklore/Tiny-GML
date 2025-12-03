@@ -21,6 +21,7 @@
   },
   "name":"Tiny GML",
   "resources":[
+    {"id":{"name":"scrAffects","path":"scripts/scrAffects/scrAffects.yy",},},
     {"id":{"name":"scrAlter_value_later","path":"scripts/scrAlter_value_later/scrAlter_value_later.yy",},},
     {"id":{"name":"scrAnnounce","path":"scripts/scrAnnounce/scrAnnounce.yy",},},
     {"id":{"name":"scrControls","path":"scripts/scrControls/scrControls.yy",},},
