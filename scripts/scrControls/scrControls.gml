@@ -198,6 +198,6 @@ function tiny_controls() constructor {
 	}
 }
 
-//INITIALIZE THE INPUT CONSTRUCTOR
+//INITIALIZE THE CONTROLS CONSTRUCTOR
 #macro CONTROLS global.controls
 CONTROLS = new tiny_controls();

@@ -9,7 +9,7 @@ function tiny_execute_later() constructor {
 	}
   
 	/**
-	* @desc							This method adds a timer and a function to a DS list and calls it once the timer reaches zero. 
+	* @desc							This method adds a timer and a function to a DS list and executes it once the timer reaches zero. 
 	* @param {real} _time			The time in seconds.	
 	* @param {Function} _func	    The function to call later.
 	*/
