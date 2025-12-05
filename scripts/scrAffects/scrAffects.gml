@@ -1,6 +1,6 @@
-////****WIP****////
-
-
+/**
+ * @desc This is a system for adding effects over time to a list interacting with instances.
+ */
 function tiny_affects() constructor {
 
 	data = {
@@ -12,14 +12,16 @@ function tiny_affects() constructor {
     /**
      * @desc Using this method you can add a buff or debuff to a DS list and have it affect the target instance. 
      * @param {Id.instance} _id     Instance ID of the target.
-     * @param {string}      _key    Variable key to affect.
-     * @param {string}      _name   Name of the effect.
-     * @param {string}      _type   Type of the effect.
+     * @param {string}      _key    Variable key to affect as a string.
+     * @param {string}      _name   Name of the effect as a string.
+     * @param {string}      _type   Type of the effect as a string. ("damage over time", "healing over time", "slow")
      * @param {real}        _time   Duration of the effect in seconds.
      * @param {real}        _value  Value of the effect.
-     * @param {real}        _tick   How damage is applied. Ticks or per frame. (Default is ticks (true)).
+     * @param {real}        _tick   How damage is applied. In ticks or per frame. (Default is ticks (true)).
      */
-	add = function(_id, _key, _name, _type, _time, _value, _tick = true) {
+	static add = function(_id, _key, _name, _type, _time, _value, _tick = true) {
+		
+		static _frame_time = 1 / game_get_speed(gamespeed_fps);
 		
 		/**
 		 * @desc Checks if name of an effect is already in the list.
@@ -41,10 +43,12 @@ function tiny_affects() constructor {
 		    data.list = ds_list_create();
 		}
         
-		if _tick == false { data.tick = false; }
-		var _damage_style = _tick == true ? _value / _time : (_value * (1 / game_get_speed(gamespeed_fps)) / _time);
+		if _tick == false and data.tick != false { data.tick = false; }
+		
+		var _damage_style = _tick == true ? _value / _time : (_value * _frame_time / _time);
+		
         var _value_new = _type == "damage over time" or _type == "healing over time" ? _damage_style : _value;
-        
+		        
 		var _index_check = check_name(data.list, "name", _name);
 				
 		if _index_check > -1 {
@@ -63,13 +67,14 @@ function tiny_affects() constructor {
 		});
 		
 		data.size = ds_list_size(data.list);
+        
 	}
 	
 	/**
      * @desc This method keeps control of each added and active buff/debuff in the DS list and removes them if the instance or the duration reaches zero.
      * @param {real}        _delta  Time between frames.
      */
-	countdown = function(_delta) {
+	static countdown = function(_delta) {
 	    
 		static tick_time = 0;
 		
@@ -80,17 +85,12 @@ function tiny_affects() constructor {
 		}
 		
 	    for (var i = 0; i < data.size; ++i) {
-            
-            var _instance = data.list[| i].iid;
-	        var _var_key  = data.list[| i].key;
-	        var _value    = data.list[| i].value;
-	        var _time     = data.list[| i].time;
+				
+	        var _instance = data.list[| i].iid;
+		    var _var_key  = data.list[| i].key;
+		    var _value    = data.list[| i].value;
+		    var _time     = data.list[| i].time;
 			
-	        if !instance_exists(_instance) or _time <= 0 or _instance[$ _var_key] < 0 {
-	            ds_list_delete(data.list, i);
-	            data.size = ds_list_size(data.list);
-	            continue
-	        }
 	        
 			if tick_time >= 1 or data.tick == false {
 			
@@ -98,6 +98,7 @@ function tiny_affects() constructor {
 			
 					case "damage over time" :
 						_instance[$ _var_key] -= clamp(_value, 0, _instance[$ _var_key]);
+						show_debug_message(data.list[| i].name)
 					break;
 				
 					case "healing over time" :
@@ -108,14 +109,20 @@ function tiny_affects() constructor {
 						_instance[$ _var_key] *= _value;
 					break;
 				}
-				
-				tick_time = 0;
 			}
 			
+			if !instance_exists(_instance) or _time <= 0 or _instance[$ _var_key] < 0 {
+		        ds_list_delete(data.list, i);
+		        data.size = ds_list_size(data.list);
+		        continue
+		    }
+			
 			data.list[| i].time -= _delta;
-                
+			  
 	    }
 	    
+		if tick_time >= 1 { tick_time = 0; }
+		
 	    if ds_list_empty(data.list) {
 	        ds_list_destroy(data.list);
 	        data.list = -1;
