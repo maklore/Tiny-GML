@@ -4,7 +4,7 @@ function tiny_multiplayer() constructor {
 	
 	static server_id      = -1;
 	static server_port	  = 27014;
-	static server_ip	  = "192.168.10.170";
+	static server_ip	  = "127.0.0.1";
 	static server_max	  = 4;
 	static server_list	  = ds_list_create();
 	
