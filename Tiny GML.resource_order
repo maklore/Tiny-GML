@@ -1,9 +1,12 @@
 {
-  "FolderOrderSettings":[],
+  "FolderOrderSettings":[
+    {"name":"Objects","order":1,"path":"folders/Objects.yy",},
+  ],
   "ResourceOrderSettings":[
     {"name":"scrAffects","order":6,"path":"scripts/scrAffects/scrAffects.yy",},
-    {"name":"scrExecute_later","order":4,"path":"scripts/scrExecute_later/scrExecute_later.yy",},
     {"name":"scrAlter_value_later","order":5,"path":"scripts/scrAlter_value_later/scrAlter_value_later.yy",},
+    {"name":"scrExecute_later","order":4,"path":"scripts/scrExecute_later/scrExecute_later.yy",},
+    {"name":"scrLAN_multiplayer","order":7,"path":"scripts/scrLAN_multiplayer/scrLAN_multiplayer.yy",},
     {"name":"scrMovement","order":2,"path":"scripts/scrMovement/scrMovement.yy",},
     {"name":"scrUtility","order":3,"path":"scripts/scrUtility/scrUtility.yy",},
   ],
