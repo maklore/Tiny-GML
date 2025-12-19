@@ -1,4 +1,10 @@
 /***WORK IN PROGRESS***/
+/*
+Main key takeaway, message, data, and timestamp are keys Tabby would use.
+message   - describes what kind of message this is
+data      - describes the contents that is included.
+timestamp - is when the packet itself was formed
+*/
 
 function tiny_multiplayer() constructor {
 	
@@ -38,7 +44,8 @@ function tiny_multiplayer() constructor {
 			
 			_struct = {
 				"type"   : _type,
-				"socket" : _client_socket
+				"socket" : _client_socket,
+				"time"   : date_current_datetime(),
 			}
 			
 			var _struct_json  = json_stringify(_struct);
@@ -133,7 +140,6 @@ function tiny_multiplayer() constructor {
 		}
 	}
 
-	
 	//**Client**//
 	static client_socket  = -1;
 	static client_connect = -1;
@@ -176,6 +182,7 @@ function tiny_multiplayer() constructor {
 		var _struct = {
 			"type"	 : network_type_data,
 			"socket" : (client_socket + 1), //Server gets socket index one above client socket.
+			"time"   : date_current_datetime(),
 			"name"	 : client_name,
 			"data"   : {
 				"x"	: _x,
@@ -273,10 +280,8 @@ function tiny_multiplayer() constructor {
 
 	    buffer_delete(_buffer);
 	}	
-
-
-	/**Logs**/
 	
+	/**Logs**/
 	static server_log_async = function(_async_load) {
 		var _load_keys = ds_map_keys_to_array(_async_load);
 		var _load_len = array_length(_load_keys);
