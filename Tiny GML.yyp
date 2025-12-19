@@ -22,7 +22,8 @@
   },
   "name":"Tiny GML",
   "resources":[
-    {"id":{"name":"objNetwork_controller","path":"objects/objNetwork_controller/objNetwork_controller.yy",},},
+    {"id":{"name":"objNetwork_client_controller","path":"objects/objNetwork_client_controller/objNetwork_client_controller.yy",},},
+    {"id":{"name":"objNetwork_server_controller","path":"objects/objNetwork_server_controller/objNetwork_server_controller.yy",},},
     {"id":{"name":"scrAffects","path":"scripts/scrAffects/scrAffects.yy",},},
     {"id":{"name":"scrAlter_value_later","path":"scripts/scrAlter_value_later/scrAlter_value_later.yy",},},
     {"id":{"name":"scrAnnounce","path":"scripts/scrAnnounce/scrAnnounce.yy",},},
