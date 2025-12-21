@@ -1,1 +1,1 @@
-TMP.client_connect_server("Temp", START_X, START_Y)
+TMP.client_connect_server("PLAYER_NAME", START_X, START_Y)
