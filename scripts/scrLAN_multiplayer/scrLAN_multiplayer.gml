@@ -9,6 +9,13 @@ timestamp - is when the packet itself was formed
 function tiny_multiplayer() constructor {
 	
 	//**Server**//
+	static server_id      = -1;
+	static server_port	  = 27014;
+	static server_ip	  = "localhost";
+	static server_max	  = 4;
+	static server_list	  = ds_list_create();
+	static server_names   = ds_list_create();
+	
 	static server_packet_resolve = {
 		"ping"		 : function(_client_socket, _buffer) {
 			
@@ -83,12 +90,6 @@ function tiny_multiplayer() constructor {
 			
 		}
 	}
-	static server_id      = -1;
-	static server_port	  = 27014;
-	static server_ip	  = "localhost";
-	static server_max	  = 4;
-	static server_list	  = ds_list_create();
-	static server_names   = ds_list_create();
 	
 	static server_start = function() {
 		server_id = network_create_server(network_socket_tcp, server_port, server_max);
