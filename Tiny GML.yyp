@@ -24,6 +24,7 @@
   "resources":[
     {"id":{"name":"objNetwork_client_controller","path":"objects/objNetwork_client_controller/objNetwork_client_controller.yy",},},
     {"id":{"name":"objNetwork_server_controller","path":"objects/objNetwork_server_controller/objNetwork_server_controller.yy",},},
+    {"id":{"name":"rm_server","path":"rooms/rm_server/rm_server.yy",},},
     {"id":{"name":"scrAffects","path":"scripts/scrAffects/scrAffects.yy",},},
     {"id":{"name":"scrAlter_value_later","path":"scripts/scrAlter_value_later/scrAlter_value_later.yy",},},
     {"id":{"name":"scrAnnounce","path":"scripts/scrAnnounce/scrAnnounce.yy",},},
@@ -35,7 +36,9 @@
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
-  "RoomOrderNodes":[],
+  "RoomOrderNodes":[
+    {"roomId":{"name":"rm_server","path":"rooms/rm_server/rm_server.yy",},},
+  ],
   "templateType":"game",
   "TextureGroups":[
     {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
