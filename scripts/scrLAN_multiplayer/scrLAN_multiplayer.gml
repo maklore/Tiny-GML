@@ -346,33 +346,11 @@ function tiny_multiplayer() constructor {
 		network_destroy(client_socket);
 	}	
 
-	static client_send_packet = function(_type, _x, _y) {
-				
-		var _struct = {
-			"type"	 : _type,
-			"socket" : (client_socket + 1),			//Server gets socket index one above client socket.
-			"time"   : date_current_datetime(),
-			"name"	 : client_name,
-			"data"   : {
-				"x"	: _x,
-				"y"	: _y
-			}
-		}
-		var _struct_json  = json_stringify(_struct);
-		var _buffer		  = buffer_create(1, buffer_grow, 1);
+	static client_send_packet = function(_type) {
 		
-		buffer_seek(_buffer, buffer_seek_start, 0);
+		var _call = client_packet_request[$ _type];
+		_call();
 		
-		var _buffer_write = buffer_write(_buffer, buffer_string, _struct_json);
-		var _buffer_size  = buffer_get_size(_buffer);
-		var _packet_send  = network_send_packet(client_socket, _buffer, _buffer_size);
-		
-		buffer_delete(_buffer);
-		delete _struct;
-		
-		if _packet_send   < 0 { return -1; }
-		
-		return 0;
 	}
 
 	static client_receive_packet = function(_async_load) {
