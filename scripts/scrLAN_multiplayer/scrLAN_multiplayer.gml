@@ -17,12 +17,12 @@ function tiny_multiplayer() constructor {
 	static server_names   = ds_list_create();
 	
 	static server_packet_resolve = {
-		"ping"		 : function(_client_socket, _buffer) {
+		"ping"		  : function(_client_socket, _buffer) {
 			
 			var _buffer_size   = buffer_get_size(_buffer);
 			var _packet_status = network_send_packet(_client_socket, _buffer, _buffer_size);
 		},
-		"player_pos" : function(_client_socket, _buffer) {
+		"player_data" : function(_client_socket, _buffer) {
 						
 			var _buffer_size  = buffer_get_size(_buffer);
 			
@@ -48,7 +48,7 @@ function tiny_multiplayer() constructor {
 		
 			return 0;
 		},
-		"link"		 : function(_client_socket, _type) {
+		"link"		  : function(_client_socket, _type) {
 			
 			var _list_index	    = ds_list_find_index(other.server_list, _client_socket);
 			var _list_value     = _list_index > -1 ? ds_list_find_value(other.server_names, _list_index) : undefined;
@@ -67,18 +67,18 @@ function tiny_multiplayer() constructor {
 			var _buffer_size  = buffer_get_size(_buffer);	
 			var _client_size  = ds_list_size(other.server_list);
 			var _packet_loss  = 0;
-		
+			
 			for (var _i = 0; _i < _client_size; ++_i;) {
 		    	var _client_target = other.server_list[| _i];
 		    	if  _client_target = _client_socket { continue; }
 	    	
 		    	var _packet_status = network_send_packet(_client_target, _buffer, _buffer_size);
+				
 	    	
 		    	if  _packet_status < 0 {
 		    		_packet_loss++;
 		    	}
 		    }
-	    
 		    buffer_delete(_buffer);
 			delete _struct;
 	    
@@ -166,7 +166,7 @@ function tiny_multiplayer() constructor {
 				
 				ds_list_add(server_list, _client_sender);
 				ds_list_add(server_names, undefined);
-				
+
 				var _packet_resolve = server_packet_resolve[$ "link"];
 			    _packet_resolve(_client_sender, _packet_type);
 				
@@ -220,10 +220,10 @@ function tiny_multiplayer() constructor {
 	static client_list	  = ds_list_create();
 	
 	static client_packet_resolve = {
-		"ping"		 : function(_buffer_struct) {
+		"ping"		  : function(_buffer_struct) {
 			show_debug_message($"{((get_timer() - _buffer_struct.time)) / 1_000} ms");
 		},
-		"player_pos" : function(_buffer_struct) {
+		"player_data" : function(_buffer_struct) {
 			
 			var _struct_names  = struct_get_names(_buffer_struct.data);
 			var _struct_length = array_length(_struct_names);
@@ -251,12 +251,12 @@ function tiny_multiplayer() constructor {
 			}
 			
 		},
-		"1"			 : function(_buffer_struct) {
+		"1"			  : function(_buffer_struct) {
 												
-			other.client_packet_request[$ "player_pos"]();
+			other.client_packet_impart[$ "player_data"]();
 		
 		},
-		"2"			 : function(_buffer_struct) {
+		"2"			  : function(_buffer_struct) {
 			with (other.client_others) {
 					
 				if _buffer_struct.name != name { continue; }
@@ -269,8 +269,8 @@ function tiny_multiplayer() constructor {
 		
 		}
 	}
-	static client_packet_request = {
-		"ping"		 : function() {
+	static client_packet_impart = {
+		"ping"		  : function(_ignored) {
 			
 			static _socket = other.client_socket;
 			
@@ -286,20 +286,19 @@ function tiny_multiplayer() constructor {
 			var _packet_send  = network_send_packet(_socket, _buffer, _buffer_size);
 			
 		},
-		"player_pos" : function() {
+		"player_data" : function(_player_data = undefined) {
 			
 			static _player = other.client_object;
 			static _name   = other.client_name;
 			static _socket = other.client_socket;
 			
+			var _data_struct = is_undefined(_player_data) ? { "x" : _player.x, "y" : _player.y } : _player_data;
+			
 			var _struct = {
-				"type"	 : "player_pos",
+				"type"	 : "player_data",
 				"time"   : date_current_datetime(),
 				"name"	 : _name,
-				"data"   : {
-					"x"	: _player.x,
-					"y"	: _player.y
-				}
+				"data"   : _data_struct
 			}
 			var _struct_json  = json_stringify(_struct);
 			var _buffer		  = buffer_create(1, buffer_grow, 1);
@@ -330,8 +329,7 @@ function tiny_multiplayer() constructor {
 			return -1;
 		}
 		
-		client_packet_request[$ "ping"]();
-		var client_send = client_packet_request[$ "player_pos"]();
+		var client_send = client_send_packet("player_data");
 		
 		if client_send < 0 { 
 			network_destroy(client_socket); 
@@ -346,10 +344,10 @@ function tiny_multiplayer() constructor {
 		network_destroy(client_socket);
 	}	
 
-	static client_send_packet = function(_type) {
+	static client_send_packet = function(_type, _struct = undefined) {
 		
-		var _call = client_packet_request[$ _type];
-		_call();
+		var _call = client_packet_impart[$ _type];
+		_call(_struct);
 		
 	}
 
