@@ -8,6 +8,7 @@
     {"name":"scrAffects","order":6,"path":"scripts/scrAffects/scrAffects.yy",},
     {"name":"scrChange_value_later","order":5,"path":"scripts/scrChange_value_later/scrChange_value_later.yy",},
     {"name":"scrExecute_later","order":4,"path":"scripts/scrExecute_later/scrExecute_later.yy",},
+    {"name":"scrGUI_menu","order":8,"path":"scripts/scrGUI_menu/scrGUI_menu.yy",},
     {"name":"scrLAN_multiplayer","order":7,"path":"scripts/scrLAN_multiplayer/scrLAN_multiplayer.yy",},
     {"name":"scrMovement","order":2,"path":"scripts/scrMovement/scrMovement.yy",},
     {"name":"scrUtility","order":3,"path":"scripts/scrUtility/scrUtility.yy",},
