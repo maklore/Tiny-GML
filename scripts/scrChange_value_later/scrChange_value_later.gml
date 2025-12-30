@@ -1,21 +1,21 @@
 /**
  * @desc This is a system for changing instance variables later.
  */
-function tiny_alter_later() constructor {
+function tiny_change_later() constructor {
 	
-	data = {
+	static data = {
 	    list : -1,
 	    size : 0
 	}
 	
 	/**
-	* @desc							This method adds a timer, instance id, variable name, and a value to a DS list and executes it once the timer reaches zero. 
+	* @desc							This method adds a timer, instance id, variable name, and a value to a DS list and changes it once the timer reaches zero. 
 	* @param {real} _time			The time in seconds.
 	* @param {id} _id				The instance id that contains the variable.
 	* @param {string} _name			The variable name as a string.
 	* @param {any} _value			The value to be set.
 	*/
-	add = function(_time, _id, _name, _value) {
+	static add = function(_time, _id, _name, _value) {
     
 	    if !ds_exists(data.list, ds_type_list) {
 	        data.list = ds_list_create();
@@ -33,14 +33,14 @@ function tiny_alter_later() constructor {
 	}
 	
 	/**
-	 * @desc This method counts down for each item in the list until it reaches zero, then executes the alter, and removes it from the list.
+	 * @desc This method counts down for each item in the list until it reaches zero, then executes the change, and removes it from the list.
 	 */
-	countdown = function() {
+	static countdown = function() {
 		if !ds_exists(data.list, ds_type_list) { exit }
 		var _delta_frame = (delta_time / game_get_speed(gamespeed_microseconds)) / game_get_speed(gamespeed_fps);
 		for (var i = 0; i < data.size; ++i) {
   
-		    if i > data.size or data[| i] == undefined { show_debug_message("Broke") break }
+		    if i > data.size or data[| i] == undefined { break; }
   
 		    data.list[| i].time -= _delta_frame;
   
@@ -59,5 +59,5 @@ function tiny_alter_later() constructor {
 	}
 }
 
-#macro ALTER global.alter
-ALTER = new tiny_alter_later();
+#macro CHANGE global.change
+CHANGE = new tiny_change_later();

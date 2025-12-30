@@ -5,17 +5,16 @@ function tiny_controls() constructor {
 	//Credit for key_press etc idea: germ3x
 	/*
 	
-	This struct has/contains the input variables and their set values.
+	These structs have/contain the input variables and their set values.
 	*/
-	key = {
+	static key = {
 		left		: [ord("A"),	vk_left],
 		right		: [ord("D"),	vk_right],
 		up			: [ord("W"),	vk_up],
 		down		: [ord("S"),	vk_down],
 	}
 	
-	
-	mouse = {
+	static mouse = {
 		primary		: [mb_left,		-4],
 		secondary	: [mb_right,	-4]
 	}
@@ -23,15 +22,15 @@ function tiny_controls() constructor {
 	/*
 	These variables are used to keep track of the input variable names, and values.
 	*/
-	key_names = struct_get_names(key);
-	key_names_length = struct_names_count(key);
-	mouse_names = struct_get_names(mouse);
-	mouse_names_length = struct_names_count(mouse);
+	static key_names = struct_get_names(key);
+	static key_names_length = struct_names_count(key);
+	static mouse_names = struct_get_names(mouse);
+	static mouse_names_length = struct_names_count(mouse);
 	
 	/**
 	 * @desc With this function you save the current state of keybinds to a file.
 	 */
-	save_keybinds = function() {
+	static save_keybinds = function() {
 		var _save_name = "keybinds.json";
 		var _open_save = file_text_open_write(_save_name);
 		var _bindings  = { _key : key, _mouse : mouse }
@@ -44,7 +43,7 @@ function tiny_controls() constructor {
 	/**
 	 * @desc With this function you load keybinds from save file if it exists.
 	 */
-	load_keybinds = function() {
+	static load_keybinds = function() {
 		var _save_name = "keybinds.json";
 		if !file_exists(_save_name) return "No keybinds file found!";
 		var _open_save = file_text_open_read(_save_name);
@@ -66,7 +65,7 @@ function tiny_controls() constructor {
 	 * @desc With this function you can check if any of the set keys are held down or not.
 	 * @param {string} _name Name of the input variable.
 	 */
-	key_press = function(_name) {
+	static key_press = function(_name) {
 		if !struct_exists(key, _name) { show_debug_message($"{_name} is invalid!") return 0 }
 		return keyboard_check(key[$ _name][0]) or keyboard_check(key[$ _name][1]);
 	}
@@ -75,7 +74,7 @@ function tiny_controls() constructor {
 	 * @desc With this function you can check if any of the set keys have been pressed or not.
 	 * @param {string} _name Name of the input variable.
 	 */
-	key_pressed = function(_name) {
+	static key_pressed = function(_name) {
 		if !struct_exists(key, _name) { show_debug_message($"{_name} is invalid!") return 0 }
 		return keyboard_check_pressed(key[$ _name][0]) or keyboard_check_pressed(key[$ _name][1]);
 	}
@@ -84,7 +83,7 @@ function tiny_controls() constructor {
 	 * @desc With this function you can check if any of the set keys have been released or not.
 	 * @param {string} _name Name of the input variable.
 	 */
-	key_released = function(_name) {
+	static key_released = function(_name) {
 		if !struct_exists(key, _name) { show_debug_message($"{_name} is invalid!") return 0 }
 		return keyboard_check_released(key[$ _name][0]) or keyboard_check_released(key[$ _name][1]);
 	}
@@ -93,7 +92,7 @@ function tiny_controls() constructor {
 	 * @desc With this function you can check if any of the set mouse buttons are held down or not.
 	 * @param {string} _name Name of the input variable.
 	 */
-	mouse_press = function(_name) {
+	static mouse_press = function(_name) {
 		if !struct_exists(mouse, _name) { show_debug_message($"{_name} is invalid!") return 0 }
 		return mouse_check_button(mouse[$ _name][0]) or mouse_check_button(mouse[$ _name][1]);
 	}
@@ -102,7 +101,7 @@ function tiny_controls() constructor {
 	 * @desc With this function you can check if any of the set mouse buttons have been pressed or not.
 	 * @param {string} _name Name of the input variable.
 	 */
-	mouse_pressed = function(_name) {
+	static mouse_pressed = function(_name) {
 		if !struct_exists(mouse, _name) { show_debug_message($"{_name} is invalid!") return 0 }
 		return mouse_check_button_pressed(mouse[$ _name][0]) or mouse_check_button_pressed(mouse[$ _name][1]);
 	}
@@ -111,7 +110,7 @@ function tiny_controls() constructor {
 	 * @desc With this function you can check if any of the set mouse buttons have been released or not.
 	 * @param {string} _name Name of the input variable.
 	 */
-	mouse_released = function(_name) {
+	static mouse_released = function(_name) {
 		if !struct_exists(mouse, _name) { show_debug_message($"{_name} is invalid!") return 0 }
 		return mouse_check_button_released(mouse[$ _name][0]) or mouse_check_button_released(mouse[$ _name][1]);
 	}
@@ -120,7 +119,7 @@ function tiny_controls() constructor {
 	 * @desc With this function you can check if a key is assigned.
 	 * @param {any} _key Key to be checked.
 	 */
-	free = function(_key) {
+	static free = function(_key) {
 		var _check_use = false
 		for (var i = 0; i < key_names_length; ++i) {
 			if array_contains(key[$ key_names[i]], _key) {
@@ -138,7 +137,7 @@ function tiny_controls() constructor {
 	 * @param {real} _primary Primary key to be set.
 	 * @param {real} _secondary Default is -4.
 	 */
-	add = function(_name, _primary, _secondary = -4) {
+	static add = function(_name, _primary, _secondary = -4) {
 		if string_letters(_name) != _name 
 			return "Name can only contain letters!"
 		if struct_exists(key, _name) 
@@ -159,7 +158,7 @@ function tiny_controls() constructor {
 	 * @desc With this function you can remove an input variable.
 	 * @param {string} _name Name of the input variable.
 	 */
-	remove = function(_name) {
+	static remove = function(_name) {
 		if _name == "" return "Name cannot be empty!"
 		//For chaos >:)//////////
 		if _name == "remove" {
@@ -177,7 +176,7 @@ function tiny_controls() constructor {
 	 * @param {string} _name Name of the input variable.
 	 * @param {bool} _secondary Default is false.
 	 */
-	assign = function(_name, _secondary = false) {
+	static assign = function(_name, _secondary = false) {
 		if !free(keyboard_lastkey) return "Key taken!"
 		var get_key = keyboard_lastkey;
 		keyboard_clear(keyboard_lastkey)
@@ -190,7 +189,7 @@ function tiny_controls() constructor {
 	 * @param {string} _name Name of the input variable.
 	 * @param {bool} _secondary Default is false.
 	 */
-	unassign = function(_name, _secondary = false) {
+	static unassign = function(_name, _secondary = false) {
 		var _index_name = _secondary == false ? "Primary" : "Secondary";
 		if key[$ _name][_secondary] == -4 return $"{_index_name} input for '{_name}' is already unassigned!"
 		key[$ _name][_secondary] = -4;

@@ -1,5 +1,5 @@
 /**
- * @desc This is a system for a announcing values onto the screen.
+ * @desc This is a system for a announcing values onto the screen through the draw GUI event.
  */
 function tiny_announce() constructor {
     
@@ -23,24 +23,26 @@ function tiny_announce() constructor {
 	        alpha : 3
 	    }
 	}
-	font_enable_sdf(data.font, true);
-	font_enable_effects(data.font, true, {
-		dropShadowEnable: true,
-	    dropShadowSoftness: 10,
-	    dropShadowOffsetX: 4,
-	    dropShadowOffsetY: 4,
-		dropShadowAlpha: 1,
-		outlineEnable: true,
-		outlineDistance: 2,
-		outlineColour: c_black
-	});
+	if os_browser == browser_not_a_browser {
+		font_enable_sdf(data.font, true);
+		font_enable_effects(data.font, true, {
+			dropShadowEnable: true,
+		    dropShadowSoftness: 10,
+		    dropShadowOffsetX: 4,
+		    dropShadowOffsetY: 4,
+			dropShadowAlpha: 1,
+			outlineEnable: true,
+			outlineDistance: 2,
+			outlineColour: c_black
+		});
+	}
 
     /**
      * @desc With this function you can send a stringed or a format alert to the broadcasting system. The types and colored text of systems are as follows: 0 (News - Green), 1 (Warning - Amber), and 2 (Error - Red).
      * @param {string} _string  The string message you wish to add broadcasting system.
      * @param {string} _type    The type of message you wish to broadcast (Default is 0).
      */
-    alert = function(_string_or_format, _type = 0) {
+    static alert = function(_string_or_format, _type = 0) {
 		
         //If the type is not correct send a stringed alert to the broadcasting system and exit the function.
         if (_string_or_format == "") or !array_contains(data.type, _type) { alert("String is empty or type is invalid!", 1); exit; }
@@ -74,7 +76,7 @@ function tiny_announce() constructor {
     /**
     * @desc With this function messages will be broadcasted to the upper center of the screen. Add this to the Draw_GUI event.
     */
-    broadcast = function() {
+    static broadcast = function() {
         
         //Initialize the draw position.
         static gui_x = display_get_gui_width() * 0.5;   //Center of the GUI width.

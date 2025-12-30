@@ -6,7 +6,7 @@
     {"name":"objNetwork_client_controller","order":1,"path":"objects/objNetwork_client_controller/objNetwork_client_controller.yy",},
     {"name":"rm_server","order":2,"path":"rooms/rm_server/rm_server.yy",},
     {"name":"scrAffects","order":6,"path":"scripts/scrAffects/scrAffects.yy",},
-    {"name":"scrAlter_value_later","order":5,"path":"scripts/scrAlter_value_later/scrAlter_value_later.yy",},
+    {"name":"scrChange_value_later","order":5,"path":"scripts/scrChange_value_later/scrChange_value_later.yy",},
     {"name":"scrExecute_later","order":4,"path":"scripts/scrExecute_later/scrExecute_later.yy",},
     {"name":"scrLAN_multiplayer","order":7,"path":"scripts/scrLAN_multiplayer/scrLAN_multiplayer.yy",},
     {"name":"scrMovement","order":2,"path":"scripts/scrMovement/scrMovement.yy",},

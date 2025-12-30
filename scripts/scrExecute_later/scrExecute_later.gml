@@ -13,7 +13,7 @@ function tiny_execute_later() constructor {
 	* @param {real} _time			The time in seconds.	
 	* @param {Function} _func	    The function to call later.
 	*/
-	add = function(_time, _func) {
+	static add = function(_time, _func) {
 	
     	if !ds_exists(data.list, ds_type_list) {
     	    data.list = ds_list_create();
@@ -26,14 +26,14 @@ function tiny_execute_later() constructor {
 	}
   
 	/**
-	 * @desc This method counts down for each item in the list until it reaches zero, then executes the alter, and removes it from the list.
+	 * @desc This method counts down for each item in the list until it reaches zero, then executes the function, and removes it from the list.
 	 */
-	countdown = function() {
+	static countdown = function() {
 		if !ds_exists(data.list, ds_type_list) { exit }
 		var _delta_frame = (delta_time / game_get_speed(gamespeed_microseconds)) / game_get_speed(gamespeed_fps);
 		for (var i = 0; i < data.size; ++i) {
       
-		    if i > data.size { break }
+		    if i > data.size { break; }
       
 		    data.list[| i].time -= _delta_frame;
       
