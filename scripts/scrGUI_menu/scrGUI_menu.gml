@@ -52,15 +52,16 @@ function tiny_menu_add(_name, _menu_name_array) {
 function tiny_menu_set(_name, _menu_name, _string, _function_or_menu_name) {
 	var _gui = global.GUI_menu;
 	var _gui_name = struct_get(_gui, _name);
-	
+
 	if is_undefined(_gui_name) { return -1; }
 	
-	var _gui_menu = struct_get(_gui_name, _menu_name);
+	var _gui_menu_button = struct_get(_gui_name.buttons, _menu_name);
 	
-	if is_undefined(_gui_menu) { return -1; }
+	if is_undefined(_gui_menu_button) { return -2; }
 	
-	_gui_menu.text = _string;
-	_gui_menu.call = _function_or_menu_name;
+	_gui_menu_button.text = _string;
+	_gui_menu_button.call = _function_or_menu_name;
+
 	return 0;
 }
 
