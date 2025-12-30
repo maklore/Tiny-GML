@@ -28,6 +28,8 @@ function tiny_menu_add(_name, _menu_name_array) {
 	
 	var _gui = global.GUI_menu;
 	
+	if struct_exists(_gui, _name) { return -1; }
+	
 	if is_undefined(_gui.menu_current) { _gui.menu_current = _name; }
 	
 	struct_set(_gui, _name, {
@@ -44,6 +46,7 @@ function tiny_menu_add(_name, _menu_name_array) {
 			call : undefined
 		});
 	}
+	return 0;
 }
 
 function tiny_menu_set(_name, _menu_name, _string, _function_or_menu_name) {
@@ -58,6 +61,7 @@ function tiny_menu_set(_name, _menu_name, _string, _function_or_menu_name) {
 	
 	_gui_menu.text = _string;
 	_gui_menu.call = _function_or_menu_name;
+	return 0;
 }
 
 function tiny_menu_draw() {
